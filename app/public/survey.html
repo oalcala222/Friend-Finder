@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <!-- Font Awesome Glyphicons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
   <!-- Chosen -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
@@ -28,15 +28,16 @@
 
   <div class="container">
 
-    <h1><strong>Survey Questions</strong></h1>
+    <h1 class="text-warning"><strong>Survey Questions</strong></h1>
+    
     <hr><hr>
 
     <h3><strong>About You</strong></h3>
     <h4>Name (Required)</h4>
-    <input type="text" id="name" class="form-control" required>
+    <input id="name" class="form-control" type="text" placeholder="Ex. Bobby Bob Bob" required>
 
     <h4>Link to Photo Image (Required)</h4>
-    <input type="text" id="photo" class="form-control" required>
+    <input id="photo" type="text"class="form-control" placeholder="Ex. http://www.bobbybobbob.com" required>
 
     <hr>
 
@@ -164,42 +165,46 @@
       <option value="5">5 (Strongly Agree)</option>
     </select>
     <hr>
+    <hr>
 
-    <br>
     <br>
 
     <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit"><i class="fa fa-check-circle" aria-hidden="true"></i>
-     Submit</button>
+    <button type="submit" class="btn btn-warning btn-lg btn-block text-primary" id="submit" data-toggle="modal" datatarget="#results-modal"><i class="fa fa-check-circle" aria-hidden="true"></i>
+     Submit
+    </button>
 
     <hr>
+
     <footer class="footer">
         <div class="container">
-          <p><a class= "text-light" href="/api/friends">API Friends List</a> | <a class= "text-light" href="https://github.com/oalcala222/Friend-Finder">GitHub Repo</a></p>
+          <p>
+            <a class= "text-light" href="/api/friends">API Friends List</a> | <a class= "text-light" href="https://github.com/oalcala222/Friend-Finder">GitHub Repo</a>
+          </p>
         </div>
-      </footer>
+    </footer>
 
   </div>
-<!--Using console log to gather ease of use from the example sent out-->
-  <!-- Modal -->
-  <div id="results-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
 
-      <!-- Modal content-->
+  <!-- The Modal -->
+  <div id="results-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
+        <!--Modal Header-->
         <div class="modal-header">
+          <h2 class="modal-title"><strong>Your Best Amigo is:</strong></h2>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h2 class="modal-title"><strong>Best Match</strong></h2>
         </div>
+        <!--Modal Body-->
         <div class="modal-body">
           <h2 id="match-name"></h2>
-          <img id="match-img" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt="">
+          <img id="match-img" src="https://media.giphy.com/media/MF1kR4YmC2Z20/giphy.gif" alt="">
         </div>
+        <!--Modal Footer-->
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -250,7 +255,7 @@
       // If all required fields are filled
       if (validateForm()) {
         // Create an object for the user"s data
-        var userData = {
+        var newUser = {
           name: $("#name").val(),
           photo: $("#photo").val(),
           scores: [
@@ -268,14 +273,13 @@
         };
 
         // AJAX post the data to the friends API.
-        $.post("/api/friends", userData, function(data) {
+        $.post("/api/friends", newUser, function(data) {
 
           // Grab the result from the AJAX post so that the best match's name and photo are displayed.
           $("#match-name").text(data.name);
           $("#match-img").attr("src", data.photo);
-
           // Show the modal with the best match
-          $("#results-modal").modal("toggle");
+          $("#results-modal").modal("show");
 
         });
       } else {

@@ -30,6 +30,7 @@ module.exports = function (app) {
     // It will do this by sending out the value "true" have a table
     // req.body is available since we're using the body parsing middleware
     friendsData.push(req.body);
+    res.json(friendsData);
 
     // I was'nt able to complete the score matching.  I will still atttempt to complete it this week.
     // I'll have to make sure ill change the survey responses from strings to interger.
