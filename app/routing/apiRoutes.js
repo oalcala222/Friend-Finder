@@ -34,7 +34,7 @@ module.exports = function (app) {
     var currentScore = req.body.scores;
     
     // we set the highest score possible by any user based on the form inputs
-    var highestScore = 50;
+    //var highestScore = 50;
     
     // we set the base score of the friendMatch to 10 as that is the lowest score possible by any user
     var friendMatch = 10;
@@ -61,7 +61,6 @@ module.exports = function (app) {
     friendsData.push(req.body);
     // send the response
     res.send(friendsData[friendMatch]);
-
   });
 
 
