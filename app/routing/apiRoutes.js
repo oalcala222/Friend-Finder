@@ -28,18 +28,42 @@ module.exports = function (app) {
   app.post("/api/friends", function (req, res) {
     // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
     // It will do this by sending out the value "true" have a table
+    
+    
+    // we gather the scores available from the body and set them as variable currentScore
+    var currentScore = req.body.scores;
+    
+    // we set the highest score possible by any user based on the form inputs
+    var highestScore = 50;
+    
+    // we set the base score of the friendMatch to 10 as that is the lowest score possible by any user
+    var friendMatch = 10;
+    
+    // we loop over the friendsData variable to parse all the info in the friendsArray 
+    for (var i = 0; i < (friendsData.length - 1); i++) {
+      
+      //we create a variable for the total difference between users
+      var totalDifference = 0;
+    
+      // We create the variable compare to hold the scores from the friendsArray 
+      var compare = friendsData[i].scores;
+      
+      // we loop over the currents scores from the body
+      for (var o = 0; o < currentScore.length; o++) {
+        // used this from stack overflow to use aboslute math and gather the difference
+        var difference = Math.abs(parseInt(currentScore[o]) - parseInt(compare[o]));
+        // we can then add to calculate the difference between user scores
+        totalDifference = totalDifference + difference;
+      }
+     
+    }
     // req.body is available since we're using the body parsing middleware
     friendsData.push(req.body);
-    res.json(friendsData);
-
-    // I was'nt able to complete the score matching.  I will still atttempt to complete it this week.
-    // I'll have to make sure ill change the survey responses from strings to interger.
-    // I'll then parse through the object , collect the data, and compare the scores. 
-    // If the users match or closely match, ill push the answer to the modal  on survey.html
-    // If not, the user still gets matched to the closest user.  
-    // I.E.  If there are only two users, and one is at a range of 10 and the other at a range of 50.....They will still get matched.
-    // As the core user experience expands and more users are added.  the matches will be more relevant 
-
+    // send the response
+    res.send(friendsData[friendMatch]);
 
   });
+
+
+
 };
