@@ -34,7 +34,7 @@ module.exports = function (app) {
     var currentScore = req.body.scores;
     
     // we set the highest score possible by any user based on the form inputs
-    //var highestScore = 50;
+    var highestScore = 50;
     
     // we set the base score of the friendMatch to 10 as that is the lowest score possible by any user
     var friendMatch = 10;
@@ -54,6 +54,13 @@ module.exports = function (app) {
         var difference = Math.abs(parseInt(currentScore[o]) - parseInt(compare[o]));
         // we can then add to calculate the difference between user scores
         totalDifference = totalDifference + difference;
+      }
+      // If total difference is under the highest score possible by any user
+      if (totalDifference < highestScore) {
+        //The high score will now total the total diffrence calculated
+        highestScore = totalDifference;
+        //Match the friend from the array
+        friendMatch = i;
       }
      
     }
